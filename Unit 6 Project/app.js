@@ -107,14 +107,45 @@ function checkWin() {
     }
 }
 
-//changes 'Start Button' to 'Play Again' button when game is finished
+//Resets buttons back to original state
+function resetKeyboard() {
+    const keys = document.getElementsByTagName('button');
+    for(let i = 0; i < keys.length; i += 1) {
+        keys[i].className = '';
+        keys[i].disabled = false;
+    }
+}
+
+//Refills life bar
+function resetLives() {
+    missed = 0;
+    const hearts = document.querySelectorAll('.tries');
+    for(let i = 0; i < hearts.length; i += 1) {
+        const heartImg = hearts[i].firstElementChild;
+        heartImg.src = 'images/liveHeart.png';
+    }
+}
+
+//clears out phrase from previous game
+function clearPhrase() {
+    const previousPhrase = phrase.querySelectorAll('li');
+    for(let i = 0; i < previousPhrase.length; i += 1) {
+        let ul = previousPhrase[i].parentNode;
+        ul.removeChild(ul.firstElementChild);
+    }
+}
+
+//Combines all 'reset' functions into the 'Play Again' button event listener
 startButton.addEventListener('click', () => {
-    if(startButton.textContent.toLowerCase() === 'play again') {
-        window.location.reload();
+    if (startButton.textContent === 'Play Again') {
+        resetKeyboard();
+        resetLives();
+        clearPhrase();
+        overlay.style.display = 'none';
+        const phraseArray = getRandomPhraseAsArray(phrases);
+        addPhraseToDisplay(phraseArray);
     }
 });
-
-
 
     
 
